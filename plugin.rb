@@ -45,9 +45,9 @@ after_initialize do
 #				puts usertopic.category_id
 				if usertopic.category_id == topic.category_id and !usertopic.closed?
 					#					dupe_post = true
-					topics_posted = topics_posted + 1
+					topics_posted += 1
 					if topics_posted > 1
-						dupe_posts = true
+						dupe_post = true
 						puts "Duplicate post!"
 					end
 				end
@@ -60,7 +60,7 @@ after_initialize do
 		else
 			puts "Topic is not in the target category."
 		end
-		puts "User: " + user.username + " has posted: " + topics_posted + " topics in this category."
+		puts "User: " + user.username + " has posted: " + topics_posted.to_s + " topics in this category."
 		puts "Is user staff?"
 		puts user.staff?
 		
