@@ -37,6 +37,10 @@ after_initialize do
 	DiscourseEvent.on(:topic_created) do |topic, post, user|
 		if enabled_site_setting 
 			topics_posted = 0
+			max_posts_allowed = SiteSetting.discourse_topic_limit_max_posts
+			if !max_posts_allowed or max_posts_allowed.instance_of? Fixnum == false
+				max_posts_allowed == 1
+			end
 			target_category = SiteSetting.discourse_topic_limit_category_name
 			if target_category and target_category != "" and target_category != "none"
 				close_message = SiteSetting.discourse_topic_limit_message
@@ -49,7 +53,7 @@ after_initialize do
 						user.topics.each do |usertopic|
 							if usertopic.category_id == topic.category_id and !usertopic.closed?
 								topics_posted += 1
-								if topics_posted > 1
+								if topics_posted > max_posts_allowed
 									dupe_post = true
 								end
 							end

@@ -1,5 +1,6 @@
 en:
   site_settings:
     discourse_topic_limit_enabled: "Enable discourse topic limiter?"
-    discourse_topic_limit_category_name: "Enabled category name: (max 1 category name)"
+    discourse_topic_limit_category_name: "Enabled category name: (max 1 category name, set to 'none' to disable)"
     discourse_topic_limit_message: "The message used when closing the topic."
+    discourse_topic_limit_max_posts: "Max topics per user allowed in this category."
