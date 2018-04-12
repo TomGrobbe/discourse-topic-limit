@@ -36,15 +36,20 @@ after_initialize do
 
 
 	DiscourseEvent.on(:topic_created) do |topic, post, user|
+		topics_posted = 0
 		puts topic.category_id # the topic category id.
 		puts Category.find_by_name("Hidden Categories").id # the target category to limit things
 		if Category.find_by_name("Hidden Categories").id == topic.category_id
 			dupe_post = false
 			user.topics.each do |usertopic|
-				puts usertopic.category_id
+#				puts usertopic.category_id
 				if usertopic.category_id == topic.category_id and !usertopic.closed?
-					dupe_post = true
-					puts "Duplicate post!"
+					#					dupe_post = true
+					topics_posted = topics_posted + 1
+					if topics_posted > 1
+						dupe_posts = true
+						puts "Duplicate post!"
+					end
 				end
 			end
 			if dupe_post
