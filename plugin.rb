@@ -35,24 +35,31 @@ after_initialize do
 	end
 
 
-	DiscourseEvent.on(:topic_created) do |topic, post, user|
-		puts post.category
+	DiscourseEvent.on(:topic_created) do |topic, rawPost, user|
+		puts "Topic: "
+		puts topic
+		puts "topic.category_id: "
+		puts topic.category_id
+#		puts rawPost
+#		puts rawPost["category"]
+		puts "Category and category.id for the 'Hidden Categories' category:"
+		puts Category.find_by_name("Hidden Categories")
 		puts Category.find_by_name("Hidden Categories").id
-		if Category.find_by_name("Hidden Categories").id == post.category
-			dupe_post = false
-			user.topics.each do |usertopic|
-				puts usertopic.category_id
-				if usertopic.category_id == post.category and !usertopic.closed?
-					dupe_post = true
-					puts "Duplicate post!"
-				end
-			end
-			if dupe_post
-				puts "User already posted here before!"
-			else
-				puts "User has not posted here before!"
-			end
-		end
+#		if Category.find_by_name("Hidden Categories").id == post.category
+#			dupe_post = false
+#			user.topics.each do |usertopic|
+#				puts usertopic.category_id
+#				if usertopic.category_id == post.category and !usertopic.closed?
+#					dupe_post = true
+#					puts "Duplicate post!"
+#				end
+#			end
+#			if dupe_post
+#				puts "User already posted here before!"
+#			else
+#				puts "User has not posted here before!"
+#			end
+#		end
 		
 		puts "Is user staff?"
 		puts user.staff?
