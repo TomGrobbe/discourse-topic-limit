@@ -2,3 +2,7 @@ plugins:
   discourse_topic_limit_enabled:
     default: true
     client: true
+  discourse_topic_limit_category_name:
+    default: 'Hidden Categories'
+  discourse_topic_limit_message:
+    default: 'You already have a topic in this category. Please stick to the one and edit it if you need to change the information in that topic. Do **not** create a new topic.'

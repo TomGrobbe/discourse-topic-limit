@@ -34,34 +34,35 @@ after_initialize do
 		prepend ::TopicLimit::WebHookTopicViewSerializerExtensions
 	end
 
-
 	DiscourseEvent.on(:topic_created) do |topic, post, user|
-#		puts topic.category_id # the topic category id.
-		#		puts Category.find_by_name("Hidden Categories").id # the target category to limit things
-		topics_posted = 0
-		if Category.find_by_name("Hidden Categories").id == topic.category_id# and !user.staff?
-			dupe_post = false
-			user.topics.each do |usertopic|
-#				puts usertopic.category_id
-				if usertopic.category_id == topic.category_id and !usertopic.closed?
-					#					dupe_post = true
-					topics_posted += 1
-					if topics_posted > 1
-						dupe_post = true
-#						puts "Duplicate post!"
+		if enabled_site_setting 
+			topics_posted = 0
+			target_category = SiteSetttings.discourse_topic_limit_category_name
+			if target_category and target_category != "" and target_category != "none"
+				close_message = SiteSetttings.discourse_topic_limit_message
+				if !close_message or close_message == ""
+					close_message = "You already have a topic in this category. Please stick to the one and edit it if you need to change the information in that topic. Do **not** create a new topic."
+				end
+				if Category.find_by_name(target_category.to_s)
+					if Category.find_by_name(target_category.to_s).id == topic.category_id# and !user.staff?
+						dupe_post = false
+						user.topics.each do |usertopic|
+							if usertopic.category_id == topic.category_id and !usertopic.closed?
+								topics_posted += 1
+								if topics_posted > 1
+									dupe_post = true
+								end
+							end
+						end
+						if dupe_post
+							topic.update_status("closed", true, Discourse.system_user)
+							topic.update_status("visible", false, Discourse.system_user)
+							Topic.find_by_id(topic.id).posts.last.update(raw: close_message.to_s)
+						end
 					end
 				end
 			end
-			if dupe_post
-#				puts "User already posted here before!"
-				topic.update_status("closed", true, Discourse.system_user)
-				topic.update_status("visible", false, Discourse.system_user)
-				Topic.find_by_id(topic.id).posts.last.update(raw: "You already have a topic in this category. You are only allowed to create one. Please stick to your existing one and edit that one instead.")
-			end
 		end
-		puts "User: " + user.username + " has posted: " + topics_posted.to_s + " topics in this category."
-#		puts "Is user staff?"
-#		puts user.staff?
 		
 	end
 end
