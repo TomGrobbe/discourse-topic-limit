@@ -45,7 +45,7 @@ after_initialize do
 			if target_category and target_category != "" and target_category != "none"
 				close_message = SiteSetting.discourse_topic_limit_message
 				if !close_message or close_message == ""
-					close_message = "You already have a topic in this category. Please stick to the one and edit it if you need to change the information in that topic. Do **not** create a new topic."
+                  close_message = "You already have a topic in the #server-development:server-bazaar section. Please include all advertisements, developer requests, information, etc. in ONE topic. You are able to edit previous posts to include new or modified information by clicking the pencil icon. If you would like to return your post to the top of the list, you can reply to the original topic to bump it. Please do not create any additional topics."
 				end
 				if Category.find_by_name(target_category.to_s)
 					ignore_staff = SiteSetting.discourse_topic_limit_excempt_staff
