@@ -36,6 +36,7 @@ after_initialize do
 
 
 	DiscourseEvent.on(:topic_created) do |topic, rawPost, user|
+		
 		puts "Topic: "
 		puts topic
 		puts "topic.category_id: "
@@ -45,6 +46,8 @@ after_initialize do
 		puts "Category and category.id for the 'Hidden Categories' category:"
 		puts Category.find_by_name("Hidden Categories")
 		puts Category.find_by_name("Hidden Categories").id
+		puts "Post category: "
+		puts post[:category]
 #		if Category.find_by_name("Hidden Categories").id == post.category
 #			dupe_post = false
 #			user.topics.each do |usertopic|
