@@ -3,10 +3,10 @@ plugins:
     default: true
     client: true
   discourse_topic_limit_category_name:
-    default: 'Server Bazaar'
+    default: 'Hidden Categories'
     type: string
   discourse_topic_limit_message:
-    default: 'You already have a topic in the #server-development:server-bazaar section. Please include all advertisements, developer requests, information, etc. in ONE topic. You are able to edit previous posts to include new or modified information by clicking the pencil icon. If you would like to return your post to the top of the list, you can reply to the original topic to bump it. Please do not create any additional topics.'
+    default: 'You already have a topic in this category. You are only allowed to have one. Please edit your existing topic isntead. Please do **not** create a new topic.'
     type: string
   discourse_topic_limit_max_posts:
     type: integer
