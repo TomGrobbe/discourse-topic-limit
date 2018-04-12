@@ -38,7 +38,7 @@ after_initialize do
 		if enabled_site_setting 
 			topics_posted = 0
 			max_posts_allowed = SiteSetting.discourse_topic_limit_max_posts
-			if !max_posts_allowed or max_posts_allowed.is_a? Integer == false
+			if !max_posts_allowed
 				max_posts_allowed = 1
 			end
 			target_category = SiteSetting.discourse_topic_limit_category_name

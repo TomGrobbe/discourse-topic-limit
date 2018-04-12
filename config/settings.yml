@@ -4,9 +4,17 @@ plugins:
     client: true
   discourse_topic_limit_category_name:
     default: 'Hidden Categories'
+    type: string
   discourse_topic_limit_message:
     default: 'You already have a topic in this category. Please stick to the one and edit it if you need to change the information in that topic. Do **not** create a new topic.'
+    type: string
   discourse_topic_limit_max_posts:
+    type: integer
     default: 1
+    min: 1
+    max: 100
+    description:
+      en: "Amount of topics the user can create."
   discourse_topic_limit_excempt_staff:
     default: true
+    type: bool
