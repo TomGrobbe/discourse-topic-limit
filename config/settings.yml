@@ -6,7 +6,7 @@ plugins:
     default: 'Hidden Categories'
     type: string
   discourse_topic_limit_message:
-    default: 'You already have a topic in this category. You are only allowed to have one. Please edit your existing topic isntead. Please do **not** create a new topic.'
+    default: 'You already have a topic in this category. You are only allowed to have one. Please edit your existing topic instead. Please do **not** create a new topic.'
     type: string
   discourse_topic_limit_max_posts:
     type: integer
