@@ -4,3 +4,4 @@ en:
     discourse_topic_limit_category_name: "Enabled category name: (max 1 category name, set to 'none' to disable)"
     discourse_topic_limit_message: "The message used when closing the topic."
     discourse_topic_limit_max_posts: "Max topics per user allowed in this category."
+    discourse_topic_limit_excempt_staff: "Disable plugin for staff members?"

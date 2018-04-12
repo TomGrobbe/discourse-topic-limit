@@ -8,3 +8,5 @@ plugins:
     default: 'You already have a topic in this category. Please stick to the one and edit it if you need to change the information in that topic. Do **not** create a new topic.'
   discourse_topic_limit_max_posts:
     default: 1
+  discourse_topic_limit_excempt_staff:
+    default: true
