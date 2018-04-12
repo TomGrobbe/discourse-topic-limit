@@ -35,34 +35,26 @@ after_initialize do
 	end
 
 
-	DiscourseEvent.on(:topic_created) do |topic, rawPost, user|
-		
-		puts "Topic: "
-		puts topic
-		puts "topic.category_id: "
-		puts topic.category_id
-#		puts rawPost
-#		puts rawPost["category"]
-		puts "Category and category.id for the 'Hidden Categories' category:"
-		puts Category.find_by_name("Hidden Categories")
-		puts Category.find_by_name("Hidden Categories").id
-		puts "Post category: "
-		puts post[:category]
-#		if Category.find_by_name("Hidden Categories").id == post.category
-#			dupe_post = false
-#			user.topics.each do |usertopic|
-#				puts usertopic.category_id
-#				if usertopic.category_id == post.category and !usertopic.closed?
-#					dupe_post = true
-#					puts "Duplicate post!"
-#				end
-#			end
-#			if dupe_post
-#				puts "User already posted here before!"
-#			else
-#				puts "User has not posted here before!"
-#			end
-#		end
+	DiscourseEvent.on(:topic_created) do |topic, post, user|
+		puts topic.category_id # the topic category id.
+		puts Category.find_by_name("Hidden Categories").id # the target category to limit things
+		if Category.find_by_name("Hidden Categories").id == topic.category_id
+			dupe_post = false
+			user.topics.each do |usertopic|
+				puts usertopic.category_id
+				if usertopic.category_id == topic.category_id and !usertopic.closed?
+					dupe_post = true
+					puts "Duplicate post!"
+				end
+			end
+			if dupe_post
+				puts "User already posted here before!"
+			else
+				puts "User has not posted here before!"
+			end
+		else
+			puts "Topic is not in the target category."
+		end
 		
 		puts "Is user staff?"
 		puts user.staff?
