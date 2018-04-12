@@ -2,13 +2,16 @@ plugins:
   discourse_topic_limit_enabled:
     default: true
     client: true
-  discourse_topic_limit_category_name:
-    type: list
-    default: 'staff'
+  discourse_topic_limit_categories_names:
+    client: true
+    type: category_list
+    default: 'Staff'
   discourse_topic_limit_message:
+    client: true
     type: string
     default: 'You already have a topic in this category. You are only allowed to have one. Please edit your existing topic instead. Please do **not** create a new topic.'
   discourse_topic_limit_max_posts:
+    client: true
     type: integer
     default: 1
     min: 1
@@ -16,5 +19,6 @@ plugins:
     description:
       en: "Amount of topics the user can create."
   discourse_topic_limit_excempt_staff:
+    client: true
     type: bool
     default: true

@@ -41,37 +41,35 @@ after_initialize do
             if !max_posts_allowed
                 max_posts_allowed = 1
             end
-            target_categories = SiteSetting.discourse_topic_limit_category_name
+            target_categories = SiteSetting.discourse_topic_limit_categories_names.split("|")
+            
             if target_categories and target_categories != "" and target_categories != "none"
                 close_message = SiteSetting.discourse_topic_limit_message
                 if !close_message or close_message == ""
-                    close_message = "You already have a topic in this category. You are only allowed to have one. Please edit your existing topic isntead. Please do **not** create a new topic."
+                    close_message = "You already have a topic in this category. You are only allowed to have one. Please edit your existing topic instead. Please do **not** create a new topic."
                 end
-                target_categories.split('|').each do |target_category|
-                    if Category.find_by_name(target_category.to_s)
-                        ignore_staff = SiteSetting.discourse_topic_limit_excempt_staff
-                        if (ignore_staff == true and !user.staff?) or (!ignore_staff)
-                            if Category.find_by_name(target_category.to_s).id == topic.category_id
-                                dupe_post = false
-                                user.topics.each do |usertopic|
-                                    if usertopic.category_id == topic.category_id and !usertopic.closed?
-                                        topics_posted += 1
-                                        if topics_posted > max_posts_allowed
-                                            dupe_post = true
-                                        end
+                target_categories.each do |target_category|
+                    ignore_staff = SiteSetting.discourse_topic_limit_excempt_staff
+                    if (ignore_staff == true and !user.staff?) or (!ignore_staff)
+                        if target_category.to_s == topic.category_id.to_s
+                            dupe_post = false
+                            user.topics.each do |usertopic|
+                                if usertopic.category_id == topic.category_id and !usertopic.closed?
+                                    topics_posted += 1
+                                    if topics_posted > max_posts_allowed
+                                        dupe_post = true
                                     end
                                 end
-                                if dupe_post
-                                    topic.update_status("closed", true, Discourse.system_user)
-                                    topic.update_status("visible", false, Discourse.system_user)
-                                    Topic.find_by_id(topic.id).posts.last.update(raw: close_message.to_s)
-                                end
+                            end
+                            if dupe_post
+                                topic.update_status("closed", true, Discourse.system_user)
+                                topic.update_status("visible", false, Discourse.system_user)
+                                Topic.find_by_id(topic.id).posts.last.update(raw: close_message.to_s)
                             end
                         end
                     end
                 end
             end
         end
-        
     end
 end
