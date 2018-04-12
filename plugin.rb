@@ -36,10 +36,10 @@ after_initialize do
 
 
 	DiscourseEvent.on(:topic_created) do |topic, post, user|
+#		puts topic.category_id # the topic category id.
+		#		puts Category.find_by_name("Hidden Categories").id # the target category to limit things
 		topics_posted = 0
-		puts topic.category_id # the topic category id.
-		puts Category.find_by_name("Hidden Categories").id # the target category to limit things
-		if Category.find_by_name("Hidden Categories").id == topic.category_id
+		if Category.find_by_name("Hidden Categories").id == topic.category_id# and !user.staff?
 			dupe_post = false
 			user.topics.each do |usertopic|
 #				puts usertopic.category_id
@@ -48,21 +48,20 @@ after_initialize do
 					topics_posted += 1
 					if topics_posted > 1
 						dupe_post = true
-						puts "Duplicate post!"
+#						puts "Duplicate post!"
 					end
 				end
 			end
 			if dupe_post
-				puts "User already posted here before!"
-			else
-				puts "User has not posted here before!"
+#				puts "User already posted here before!"
+				topic.update_status("closed", true, Discourse.system_user)
+				topic.update_status("visible", false, Discourse.system_user)
+				Topic.find_by_id(topic.id).posts.last.update(raw: "You already have a topic in this category. You are only allowed to create one. Please stick to your existing one and edit that one instead.")
 			end
-		else
-			puts "Topic is not in the target category."
 		end
 		puts "User: " + user.username + " has posted: " + topics_posted.to_s + " topics in this category."
-		puts "Is user staff?"
-		puts user.staff?
+#		puts "Is user staff?"
+#		puts user.staff?
 		
 	end
 end
