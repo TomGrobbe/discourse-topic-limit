@@ -60,7 +60,7 @@ after_initialize do
 		else
 			puts "Topic is not in the target category."
 		end
-		
+		puts "User: " + user.username + " has posted: " topics_posted + " topics in this category."
 		puts "Is user staff?"
 		puts user.staff?
 		
