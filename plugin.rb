@@ -37,9 +37,9 @@ after_initialize do
 	DiscourseEvent.on(:topic_created) do |topic, post, user|
 		if enabled_site_setting 
 			topics_posted = 0
-			target_category = SiteSetttings.discourse_topic_limit_category_name
+			target_category = SiteSetting.discourse_topic_limit_category_name
 			if target_category and target_category != "" and target_category != "none"
-				close_message = SiteSetttings.discourse_topic_limit_message
+				close_message = SiteSetting.discourse_topic_limit_message
 				if !close_message or close_message == ""
 					close_message = "You already have a topic in this category. Please stick to the one and edit it if you need to change the information in that topic. Do **not** create a new topic."
 				end
