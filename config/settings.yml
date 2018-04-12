@@ -1,0 +1,4 @@
+plugins:
+  discourse_topic_limit_enabled:
+    default: true
+    client: true

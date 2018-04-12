@@ -4,7 +4,7 @@
 # authors: Tom Grobbe
 # url: https://github.com/TomGrobbe/discourse-topic-limit
 
-enabled_site_setting :discourse_topic_limit
+enabled_site_setting :discourse_topic_limit_enabled
 
 require_dependency 'post_creator'
 require_dependency 'topic_creator'

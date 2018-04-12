@@ -1,0 +1,4 @@
+en:
+  site_settings:
+    discourse_topic_limit_enabled: "Should this plugin be enabled?"
+    # while testing, this doesn't even seem to do anything but it's still required...
