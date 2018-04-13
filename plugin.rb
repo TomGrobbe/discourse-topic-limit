@@ -64,8 +64,9 @@ after_initialize do
                             if dupe_post
                                 topic.update_status("visible", false, Discourse.system_user)
                                 topic.update_status("closed", true, Discourse.system_user, message: close_message.to_s)
-                                # Topic.find_by_id(topic.id).posts.last.update(raw: close_message.to_s)
-                                topic.topic_timers=[TopicTimer.create(execute_at: DateTime.now + 15.seconds, status_type: 4, user_id: Discourse.system_user.id, topic_id: topic.id, based_on_last_post: false, created_at: DateTime.now, updated_at: DateTime.now, public_type: true)]
+                                if SiteSetting.discourse_topic_limit_auto_delete_topic
+                                    topic.topic_timers=[TopicTimer.create(execute_at: DateTime.now + 5.minutes, status_type: 4, user_id: Discourse.system_user.id, topic_id: topic.id, based_on_last_post: false, created_at: DateTime.now, updated_at: DateTime.now, public_type: true)]
+                                end
                             end
                         end
                     end

@@ -22,3 +22,7 @@ plugins:
     client: false
     type: bool
     default: true
+  discourse_topic_limit_auto_delete_topic:
+    client: false
+    type: bool
+    default: true

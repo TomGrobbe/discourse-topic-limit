@@ -5,3 +5,4 @@ en:
     discourse_topic_limit_message: "The message displayed to the user when closing the topic."
     discourse_topic_limit_max_posts: "Max topics per user allowed in the limited categories."
     discourse_topic_limit_excempt_staff: "Allow staff members to create unlimited topics regardless of the limit."
+    discourse_topic_limit_auto_delete_topic: "Auto deletes the closed topic after 5 minutes."
