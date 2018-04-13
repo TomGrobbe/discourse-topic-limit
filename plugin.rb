@@ -62,9 +62,9 @@ after_initialize do
                                 end
                             end
                             if dupe_post
-                                topic.update_status("closed", true, Discourse.system_user)
                                 topic.update_status("visible", false, Discourse.system_user)
-                                Topic.find_by_id(topic.id).posts.last.update(raw: close_message.to_s)
+                                topic.update_status("closed", true, Discourse.system_user, message: close_message.to_s)
+                                # Topic.find_by_id(topic.id).posts.last.update(raw: close_message.to_s)
                             end
                         end
                     end
