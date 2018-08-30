@@ -6,3 +6,4 @@ en:
     discourse_topic_limit_max_posts: "Max topics per user allowed in the limited categories."
     discourse_topic_limit_excempt_staff: "Allow staff members to create unlimited topics regardless of the limit."
     discourse_topic_limit_auto_delete_topic: "Auto deletes the closed topic 24 hours after it was created."
+    discourse_topic_limit_auto_delete_time: "Set the number of hours to wait before automatically deleting the topic. Only used if the option to auto delete topics is enabled."

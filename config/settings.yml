@@ -26,3 +26,11 @@ plugins:
     client: false
     type: bool
     default: true
+  discourse_topic_limit_auto_delete_time:
+    client: true
+    type: integer
+    default: 24
+    min: 1
+    max: 720
+    description:
+      en: "Set the number of hours to wait before automatically deleting the topic. Only used if the option to auto delete topics is enabled."
