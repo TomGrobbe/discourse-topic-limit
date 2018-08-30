@@ -1,6 +1,6 @@
 # name: discourse-topic-limit
 # about: Limits topics per user in a specific category.
-# version: 1.2.0
+# version: 1.2.1
 # authors: Tom Grobbe
 # url: https://github.com/TomGrobbe/discourse-topic-limit
 
@@ -48,7 +48,7 @@ after_initialize do
                 if !close_message or close_message == ""
                     close_message = "You already have one or more active topic(s) in this category. You can only have {max} active topic(s) in this category.<br><br>Please edit your existing topic instead.<br><br>Please do **not** create a new topic."
                 end
-                close_message.gsub '{max}', max_posts_allowed.to_s
+                close_message = close_message.gsub '{max}', max_posts_allowed.to_s
                 
                 target_categories.each do |target_category|
                     ignore_staff = SiteSetting.discourse_topic_limit_excempt_staff
