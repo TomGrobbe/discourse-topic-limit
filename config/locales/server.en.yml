@@ -1,8 +1,8 @@
 en:
   site_settings:
-    discourse_topic_limit_enabled: "Enable discourse topic limiter."
-    discourse_topic_limit_categories_names: "Enabled categories, leaving this empty will disable all categories."
-    discourse_topic_limit_message: "The message displayed to the user when closing the topic."
+    discourse_topic_limit_enabled: "Enable discourse topic limiter plugin."
+    discourse_topic_limit_categories_names: "Select the categories that you want to limit with this plugin here. Leaving this empty will disable the limit for all categories."
+    discourse_topic_limit_message: "This is the message displayed to the user when the topic gets automatically closed.\nIf you add '{max}' in your message, then that will be replaced with the limit value."
     discourse_topic_limit_max_posts: "Max topics per user allowed in the limited categories."
     discourse_topic_limit_excempt_staff: "Allow staff members to create unlimited topics regardless of the limit."
-    discourse_topic_limit_auto_delete_topic: "Auto deletes the closed topic after 24 hours."
+    discourse_topic_limit_auto_delete_topic: "Auto deletes the closed topic 24 hours after it was created."

@@ -9,7 +9,7 @@ plugins:
   discourse_topic_limit_message:
     client: false
     type: string
-    default: 'You already have a topic in this category. You are only allowed to have one. Please edit your existing topic instead. Please do **not** create a new topic.'
+    default: 'You already have one or more active topic(s) in this category. You can only have {max} active topic(s) in this category.<br><br>Please edit your existing topic instead.<br><br>Please do **not** create a new topic.'
   discourse_topic_limit_max_posts:
     client: false
     type: integer

@@ -46,7 +46,7 @@ after_initialize do
             if target_categories and target_categories != "" and target_categories != "none"
                 close_message = SiteSetting.discourse_topic_limit_message
                 if !close_message or close_message == ""
-                    close_message = "You already have a topic in this category. You are only allowed to have one. Please edit your existing topic instead. Please do **not** create a new topic."
+                    close_message = "You already have one or more active topic(s) in this category. You can only have {max} active topic(s) in this category.<br><br>Please edit your existing topic instead.<br><br>Please do **not** create a new topic."
                 end
                 target_categories.each do |target_category|
                     ignore_staff = SiteSetting.discourse_topic_limit_excempt_staff
