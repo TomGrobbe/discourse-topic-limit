@@ -1,6 +1,6 @@
 # name: discourse-topic-limit
 # about: Limits topics per user in a specific category.
-# version: 0.0.1
+# version: 1.2.0
 # authors: Tom Grobbe
 # url: https://github.com/TomGrobbe/discourse-topic-limit
 
@@ -48,20 +48,23 @@ after_initialize do
                 if !close_message or close_message == ""
                     close_message = "You already have one or more active topic(s) in this category. You can only have {max} active topic(s) in this category.<br><br>Please edit your existing topic instead.<br><br>Please do **not** create a new topic."
                 end
+                close_message.gsub '{max}', max_posts_allowed.to_s
+                
                 target_categories.each do |target_category|
                     ignore_staff = SiteSetting.discourse_topic_limit_excempt_staff
                     if (ignore_staff == true and !user.staff?) or (!ignore_staff)
                         if target_category.to_s == topic.category_id.to_s
-                            dupe_post = false
+                            # dupe_post = false
                             user.topics.each do |usertopic|
                                 if usertopic.category_id == topic.category_id and !usertopic.closed?
                                     topics_posted += 1
-                                    if topics_posted > max_posts_allowed
-                                        dupe_post = true
-                                    end
+                                    # if topics_posted > max_posts_allowed
+                                        # dupe_post = true
+                                    # end
                                 end
                             end
-                            if dupe_post
+                            # if dupe_post
+                            if topics_posted > max_posts_allowed
                                 topic.update_status("visible", false, Discourse.system_user)
                                 topic.update_status("closed", true, Discourse.system_user, message: close_message.to_s)
                                 if SiteSetting.discourse_topic_limit_auto_delete_topic
