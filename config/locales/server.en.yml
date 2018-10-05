@@ -7,3 +7,6 @@ en:
     discourse_topic_limit_excempt_staff: "Allow staff members to create unlimited topics regardless of the limit."
     discourse_topic_limit_auto_delete_topic: "Auto deletes the closed topic 24 hours after it was created."
     discourse_topic_limit_auto_delete_time: "Set the number of hours to wait before automatically deleting the topic. Only used if the option to auto delete topics is enabled."
+    discourse_topic_limit_send_warning: "Whether or not to send the user a private message to notify them why their topic was closed."
+    discourse_topic_limit_use_official_warning: "Make the private message (if enabled above) an official warning."
+    discourse_topic_limit_warning_message: "The message to put in the PM. {user}, {max} and {category} will be replaced with the username, topic limit, category name."

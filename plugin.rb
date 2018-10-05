@@ -1,6 +1,6 @@
 # name: discourse-topic-limit
 # about: Limits topics per user in a specific category.
-# version: 1.2.2
+# version: 1.2.3
 # authors: Tom Grobbe
 # url: https://github.com/TomGrobbe/discourse-topic-limit
 
@@ -46,7 +46,7 @@ after_initialize do
             if target_categories and target_categories != "" and target_categories != "none"
                 close_message = SiteSetting.discourse_topic_limit_message
                 if !close_message or close_message == ""
-                    close_message = "You already have one or more active topic(s) in this category. You can only have {max} active topic(s) in this category.<br><br>Please edit your existing topic instead.<br><br>Please do **not** create a new topic. **If you (attempt to) evade this server category, you will very likely get a (temporary) suspension.**"
+                    close_message = "You already have one or more active topic(s) in this category. You can only have {max} active topic(s) in this category.<br><br>Please edit your existing topic instead.<br><br>Please do **not** create a new topic."
                 end
                 close_message = close_message.gsub '{max}', max_posts_allowed.to_s
                 
@@ -54,20 +54,28 @@ after_initialize do
                     ignore_staff = SiteSetting.discourse_topic_limit_excempt_staff
                     if (ignore_staff == true and !user.staff?) or (!ignore_staff)
                         if target_category.to_s == topic.category_id.to_s
-                            # dupe_post = false
                             user.topics.each do |usertopic|
                                 if usertopic.category_id == topic.category_id and !usertopic.closed?
                                     topics_posted += 1
-                                    # if topics_posted > max_posts_allowed
-                                        # dupe_post = true
-                                    # end
                                 end
                             end
-                            # if dupe_post
                             if topics_posted > max_posts_allowed
                                 topic.update_status("visible", false, Discourse.system_user)
                                 topic.update_status("closed", true, Discourse.system_user, message: close_message.to_s)
-                                PostCreator.create!(Discourse.system_user, title: "Topic limit reached", raw: close_message.to_s, target_usernames: user.username.to_s, archetype: Archetype.private_message, subtype: TopicSubtype.moderator_warning)
+                                if SiteSetting.discourse_topic_limit_send_warning
+                                    warning_message = SiteSetting.discourse_topic_limit_warning_message
+                                    if !warning_message or warning_message == ""
+                                        warning_message = "Hello @{user},<br>This is an automated warning to let you know that you have reached the topic limit of {max} topics in the '{category}' category. Your most recent topic in that category has been automatically closed and unlisted for this reason.<br><br>Please note that if you (attempt to) evade this topic limit policy **in any way**, you are very likely to end up being (temporarily) suspended from the forums."
+                                    end
+                                    warning_message = warning_message.gsub '{user}', user.username.to_s
+                                    warning_message = warning_message.gsub '{max}', max_posts_allowed.to_s
+                                    warning_message = warning_message.gsub '{category}', target_category.name.to_s
+                                    if SiteSetting.discourse_topic_limit_use_official_warning
+                                        PostCreator.create!(Discourse.system_user, title: "Topic limit reached", raw: close_message.to_s, target_usernames: user.username.to_s, archetype: Archetype.private_message, subtype: TopicSubtype.moderator_warning)
+                                    else
+                                        PostCreator.create!(Discourse.system_user, title: "Topic limit reached", raw: close_message.to_s, target_usernames: user.username.to_s, archetype: Archetype.private_message)
+                                    end
+                                end
                                 if SiteSetting.discourse_topic_limit_auto_delete_topic
                                     number_of_hours = SiteSetting.discourse_topic_limit_auto_delete_time
                                     if !number_of_hours
