@@ -1,6 +1,6 @@
 # name: discourse-topic-limit
 # about: Limits topics per user in a specific category.
-# version: 1.2.5
+# version: 1.2.6
 # authors: Tom Grobbe
 # url: https://github.com/TomGrobbe/discourse-topic-limit
 
@@ -71,7 +71,7 @@ after_initialize do
                                     warning_message = warning_message.gsub '{max}', max_posts_allowed.to_s
                                     warning_message = warning_message.gsub '{category}', Category.find_by(id: target_category).name.to_s
                                     if SiteSetting.discourse_topic_limit_use_official_warning
-                                        PostCreator.create!(Discourse.system_user, title: "Topic limit reached", raw: warning_message.to_s, target_usernames: user.username.to_s, archetype: Archetype.private_message, subtype: TopicSubtype.moderator_warning)
+                                        PostCreator.create!(Discourse.system_user, title: "Topic limit reached", raw: warning_message.to_s, target_usernames: user.username.to_s, archetype: Archetype.private_message, subtype: TopicSubtype.moderator_warning, is_warning: true)
                                     else
                                         PostCreator.create!(Discourse.system_user, title: "Topic limit reached", raw: warning_message.to_s, target_usernames: user.username.to_s, archetype: Archetype.private_message)
                                     end
