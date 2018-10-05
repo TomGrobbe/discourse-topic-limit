@@ -45,4 +45,4 @@ plugins:
   discourse_topic_limit_warning_message:
     client: true
     type: string
-    default: "Hello @{user},<br>This is an automated warning to let you know that you have reached the topic limit of {max} topics in the '{category}' category. Your most recent topic in that category has been automatically closed and unlisted for this reason.<br><br>Please note that if you (attempt to) evade this topic limit policy **in any way**, you are very likely to end up being (temporarily) suspended from the forums."
+    default: "Hello @{user},<br>This is an automated warning to let you know that you have reached the topic limit of {max} topics in the '{category}' category. Your most recent topic in that category has been automatically closed and unlisted for this reason.<br><br>Please note that if you (attempt to) evade this topic limit policy **in any way**, you are very likely to end up being (temporarily) suspended from the forums and have your additional topics removed."
