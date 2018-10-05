@@ -1,6 +1,6 @@
 # name: discourse-topic-limit
 # about: Limits topics per user in a specific category.
-# version: 1.2.1
+# version: 1.2.2
 # authors: Tom Grobbe
 # url: https://github.com/TomGrobbe/discourse-topic-limit
 
@@ -46,7 +46,7 @@ after_initialize do
             if target_categories and target_categories != "" and target_categories != "none"
                 close_message = SiteSetting.discourse_topic_limit_message
                 if !close_message or close_message == ""
-                    close_message = "You already have one or more active topic(s) in this category. You can only have {max} active topic(s) in this category.<br><br>Please edit your existing topic instead.<br><br>Please do **not** create a new topic."
+                    close_message = "You already have one or more active topic(s) in this category. You can only have {max} active topic(s) in this category.<br><br>Please edit your existing topic instead.<br><br>Please do **not** create a new topic. **If you (attempt to) evade this server category, you will very likely get a (temporary) suspension.**"
                 end
                 close_message = close_message.gsub '{max}', max_posts_allowed.to_s
                 
@@ -67,6 +67,7 @@ after_initialize do
                             if topics_posted > max_posts_allowed
                                 topic.update_status("visible", false, Discourse.system_user)
                                 topic.update_status("closed", true, Discourse.system_user, message: close_message.to_s)
+                                PostCreator.create!(Discourse.system_user, title: "Topic limit reached", raw: close_message.to_s, target_usernames: user.username.to_s, archetype: Archetype.private_message, subtype: TopicSubtype.moderator_warning)
                                 if SiteSetting.discourse_topic_limit_auto_delete_topic
                                     number_of_hours = SiteSetting.discourse_topic_limit_auto_delete_time
                                     if !number_of_hours
