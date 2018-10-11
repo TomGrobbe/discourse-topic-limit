@@ -62,6 +62,7 @@ after_initialize do
                             if topics_posted > max_posts_allowed
                                 topic.update_status("visible", false, Discourse.system_user)
                                 topic.update_status("closed", true, Discourse.system_user, message: close_message.to_s)
+                                topic.update_status("archived", true, Discourse.system_user)
                                 if SiteSetting.discourse_topic_limit_send_warning
                                     warning_message = SiteSetting.discourse_topic_limit_warning_message
                                     if !warning_message or warning_message == ""
