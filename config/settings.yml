@@ -41,7 +41,7 @@ plugins:
   discourse_topic_limit_use_official_warning:
     client: true
     type: bool
-    default: true
+    default: false
   discourse_topic_limit_warning_message:
     client: true
     type: string
